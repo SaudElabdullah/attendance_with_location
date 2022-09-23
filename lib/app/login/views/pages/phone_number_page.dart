@@ -14,6 +14,9 @@ class PhoneNumberPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntlPhoneField(
       controller: controller.phoneController,
+      onCountryChanged: (country){
+        controller.countryKey = country.code;
+      },
       decoration: const InputDecoration(
         labelText: 'Phone Number',
         border: OutlineInputBorder(

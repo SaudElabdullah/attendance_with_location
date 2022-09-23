@@ -14,15 +14,15 @@ class PinCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-        horizontal: 40,
+        horizontal: 20,
       ),
       child: PinCodeTextField(
         errorTextSpace: 30,
         validator: controller.smsValidator,
         appContext: context,
         autoFocus: true,
-        autoDisposeControllers: true,
-        length: 4,
+        autoDisposeControllers: false,
+        length: 6,
         obscureText: false,
         animationType: AnimationType.scale,
         cursorHeight: 25,
@@ -50,9 +50,7 @@ class PinCodePage extends StatelessWidget {
         ],
         enableActiveFill: true,
         controller: controller.smsCodeController,
-        onCompleted: (value) {
-          controller.navigateToNextPage();
-        },
+        onCompleted: (value) {},
         onChanged: (value) {},
         beforeTextPaste: (text) {
           return true;

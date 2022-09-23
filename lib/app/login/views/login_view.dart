@@ -1,5 +1,4 @@
 import 'package:attendance_with_location/app/login/controllers/login_controller.dart';
-import 'package:attendance_with_location/app/login/services/login_services.dart';
 import 'package:attendance_with_location/app/login/views/pages/phone_number_page.dart';
 import 'package:attendance_with_location/app/login/views/pages/pin_code_page.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   initState() {
-    controller = LoginController();
+    controller = LoginController(context,);
     super.initState();
   }
 
@@ -39,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   Icon(
-                    Icons.timelapse_rounded,
+                    Icons.person,
                     size: 35,
                   ),
                 ],
@@ -49,7 +48,7 @@ class _LoginViewState extends State<LoginView> {
               top: 350,
               right: 35,
               left: 35,
-              height: 150,
+              height: 200,
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: controller.pageController,
@@ -74,8 +73,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 onPressed: () async {
-                  controller.navigateToNextPage();
-                  print(await LoginServices.loginWithPhoneNumber(''));
+                  await controller.loginController();
                 },
                 child: const SizedBox(
                   height: 45,
