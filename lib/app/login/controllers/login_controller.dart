@@ -1,7 +1,7 @@
 import 'package:attendance_with_location/app/home/views/home_view.dart';
 import 'package:attendance_with_location/app/login/services/login_services.dart';
 import 'package:attendance_with_location/core/utils/location_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:attendance_with_location/core/utils/pop_up.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
@@ -10,9 +10,14 @@ class LoginController {
   late TextEditingController phoneController;
   late TextEditingController smsCodeController;
   late LoginServices loginServices;
+  late bool showLottie;
   late String countryKey;
+  late State state;
 
-  LoginController(this.context) {
+  LoginController({
+    required this.context,
+    required this.state,
+  }) {
     pageController = PageController(
       initialPage: 0,
       keepPage: true,
@@ -21,11 +26,11 @@ class LoginController {
     smsCodeController = TextEditingController();
     loginServices = LoginServices();
     countryKey = '+966';
-    LocationUtil.determinePosition();
+    showLottie = false;
   }
 
   String? smsValidator(String? sms) {
-    if (((sms?.length ?? 0) < 6) || sms != '0000') return "Incorrect SMS Code";
+    if (((sms?.length ?? 0) < 6)) return "Incorrect SMS Code";
     return null;
   }
 
@@ -43,29 +48,46 @@ class LoginController {
     switch (page) {
       case "0.0":
         {
-          phoneController.text = countryKey + phoneController.text;
-          loginServices.login(phoneController.text);
+          loginServices.login(countryKey + phoneController.text);
           navigateToNextPage();
         }
         break;
 
       case "1.0":
         {
-          if (await loginServices.verifyCode(smsCodeController.text) != '') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeView(),
-              ),
-            );
-          }
+          state.setState(() {
+            showLottie = true;
+          });
+          Future.wait([
+            LocationUtil.determinePosition(),
+            loginServices.verifyCode(smsCodeController.text),
+          ]).then((value) async {
+            if (value[1] != '') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeView(),
+                ),
+              );
+            } else {
+              state.setState(() {
+                showLottie = false;
+              });
+              await showAlert(
+                context: context,
+                isDismissible: true,
+                buttonText: 'Done',
+                title: 'SMS Code',
+                messageOne: 'The SMS Code you entered is incorrect',
+                messageTwo: 'Please renter it again',
+              );
+            }
+          });
         }
         break;
 
       default:
-        {
-
-        }
+        {}
         break;
     }
   }
