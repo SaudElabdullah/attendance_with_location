@@ -1,7 +1,8 @@
-import 'package:attendance_with_location/core/wrapper.dart';
+import 'package:attendance_with_location/core/views/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
         ],
       ),
-      home: const Wrapper(),
+      home: const SplashScreen(),
     );
   }
 }
