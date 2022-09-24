@@ -13,7 +13,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    controller = HomeController();
+    controller = HomeController(
+      context: context,
+    );
     super.initState();
   }
 
@@ -25,8 +27,30 @@ class _HomeViewState extends State<HomeView> {
           alignment: Alignment.topCenter,
           children: [
             Positioned(
+              top: 400,
+              child: Icon(
+                controller.inPlace ? Icons.location_on : Icons.location_off,
+                size: 50,
+                color: Colors.blueGrey,
+              ),
+            ),
+            Positioned(
+              top: 500,
               child: Text(
                 controller.inPlace ? 'You are in place' : 'You are not in place',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 100,
+              child: TextButton(
+                onPressed: (){
+                  controller.logout();
+                },
+                child: Text('Logout'),
               ),
             ),
           ],
