@@ -17,13 +17,17 @@ class LoginServices {
   }
 
   Future<String> verifyCode(String smsCode) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verification,
-      smsCode: smsCode,
-    );
-    await _auth.signInWithCredential(
-      credential,
-    );
-    return _auth.currentUser!.uid;
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verification,
+        smsCode: smsCode,
+      );
+      await _auth.signInWithCredential(
+        credential,
+      );
+      return _auth.currentUser!.uid;
+    } catch(e){
+      return '';
+    }
   }
 }
