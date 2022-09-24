@@ -12,18 +12,24 @@ class PhoneNumberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntlPhoneField(
-      controller: controller.phoneController,
-      onCountryChanged: (country){
-        controller.countryKey = country.code;
-      },
-      decoration: const InputDecoration(
-        labelText: 'Phone Number',
-        border: OutlineInputBorder(
-          borderSide: BorderSide(),
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
       ),
-      initialCountryCode: 'SA',
+      child: IntlPhoneField(
+        controller: controller.phoneController,
+        onCountryChanged: (country) {
+          controller.countryKey = country.code;
+        },
+        autofocus: true,
+        decoration: const InputDecoration(
+          labelText: 'Phone Number',
+          border: OutlineInputBorder(
+            borderSide: BorderSide(),
+          ),
+        ),
+        initialCountryCode: 'SA',
+      ),
     );
   }
 }

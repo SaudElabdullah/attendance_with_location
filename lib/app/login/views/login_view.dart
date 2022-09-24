@@ -2,6 +2,7 @@ import 'package:attendance_with_location/app/login/controllers/login_controller.
 import 'package:attendance_with_location/app/login/views/pages/phone_number_page.dart';
 import 'package:attendance_with_location/app/login/views/pages/pin_code_page.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -15,7 +16,10 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   initState() {
-    controller = LoginController(context,);
+    controller = LoginController(
+      context: context,
+      state: this,
+    );
     super.initState();
   }
 
@@ -24,22 +28,39 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: SafeArea(
         child: Stack(
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           children: [
+            if (controller.showLottie) ...[
+              Positioned(
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.black.withOpacity(
+                    0.2,
+                  ),
+                  child: Lottie.asset(
+                    'assets/lotties/loading.json',
+                    repeat: true,
+                    animate: true,
+                    frameRate: FrameRate.max,
+                  ),
+                ),
+              ),
+            ],
             Positioned(
               top: 150,
               child: Row(
                 children: const [
                   Text(
-                    'Quiz U',
+                    'Attendance',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 30,
                     ),
                   ),
                   Icon(
-                    Icons.person,
-                    size: 35,
+                    Icons.location_on,
+                    size: 40,
                   ),
                 ],
               ),
@@ -48,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
               top: 350,
               right: 35,
               left: 35,
-              height: 200,
+              height: 300,
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: controller.pageController,
