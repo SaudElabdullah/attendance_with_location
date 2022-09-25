@@ -36,10 +36,15 @@ android {
 
     defaultConfig {
         applicationId "com.example.attendance_with_location"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    dependencies {
+        implementation 'com.android.support:multidex:1.0.3'
     }
 
     buildTypes {
